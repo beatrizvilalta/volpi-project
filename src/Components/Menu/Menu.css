@@ -1,0 +1,26 @@
+.menu-width {
+  max-width: 16rem;
+}
+
+.volpi-menu {
+  background-color: #f1f1f1;
+  word-wrap: break-word;
+}
+
+a.is-selected {
+  color: white;
+}
+
+a.regular {
+  color: #535763;
+}
+
+li.is-selected {
+  border-radius: 0.5rem;
+  background-color: #6759ff;
+}
+
+li.regular {
+  border-radius: 0.5rem;
+  color: white;
+}
