@@ -43,7 +43,7 @@ function Feed() {
   ];
 
   function handleItemUpdated(model: PostModel) {
-    // update model from the list
+    console.log(`update model ${model.id}`);
   }
 
   return (
