@@ -1,0 +1,4 @@
+.custom-card {
+  border-radius: 5px; /* Altere o valor conforme necessário */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra personalizada */
+}
