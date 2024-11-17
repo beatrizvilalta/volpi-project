@@ -1,0 +1,54 @@
+.custom-card {
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background-color: white;
+  overflow: hidden;
+}
+
+.card-image img {
+  height: 192px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 10px;
+}
+
+.card-footer .button {
+  border: none;
+  box-shadow: none;
+  background-color: white;
+  flex-grow: 1;
+  margin: 0 5px;
+  text-align: center;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: center;
+}
+
+/* Define estilos para telas grandes */
+@media (min-width: 1024px) {
+  .responsive-button {
+    font-size: 1.5rem !important; /* Tamanho equivalente ao botão is-medium */
+  }
+}
+
+/* Define estilos para telas pequenas */
+@media (max-width: 1023px) {
+  .responsive-button {
+    font-size: 0.8rem !important; /* Tamanho equivalente ao botão is-small */
+  }
+}
+
+.truncated-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  line-height: 1.5;
+  max-height: 6rem;
+  text-overflow: ellipsis;
+}

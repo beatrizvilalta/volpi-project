@@ -1,0 +1,35 @@
+/* Define estilos para telas grandes */
+@media (min-width: 1024px) {
+  .responsive-button {
+    background-color: white !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-size: 1.5rem !important; /* Tamanho equivalente ao botão is-medium */
+  }
+}
+
+/* Define estilos para telas pequenas */
+@media (max-width: 1023px) {
+  .responsive-button {
+    background-color: white !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-size: 0.8rem !important; /* Tamanho equivalente ao botão is-small */
+  }
+}
+
+button.is-default {
+  color: #536471;
+}
+
+button.is-saved {
+  color: #e0bf04;
+}
+
+button.is-liked {
+  color: #8b53fc;
+}
+
+.card-footer .button:last-child {
+  margin-right: 0;
+}
