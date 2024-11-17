@@ -1,0 +1,25 @@
+.navbar {
+  --bulma-navbar-height: 5.05rem;
+  background-color: #5e4cef !important;
+  background-image: linear-gradient(to left, #5e4cef 65%, #8b53fc) !important;
+}
+
+.navbar-item {
+  --bulma-navbar-item-img-max-height: 3rem;
+}
+
+a.navbar-item:hover {
+  background-color: #ffffff20;
+}
+
+a.is-navbar-purple {
+  color: #8b53fc;
+}
+
+a.is-red {
+  color: #c70000;
+}
+
+svg {
+  filter: drop-shadow(3px 4px 1px rgb(0 0 0 / 0.4));
+}
