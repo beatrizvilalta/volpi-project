@@ -1,24 +1,34 @@
 import "./Post.css";
-import ActionButtons from "../ActionButtons/ActionButtons";
+import ActionButtons from "../actionButtons/ActionButtons";
 import { useState } from "react";
+import { PostModel } from "../../types";
 
-function Post() {
-  const [model, setModel] = useState({
-    title: "Material de colorir peixe boi",
-    description:
-      "Ensinando os animais da APA costa dos corais. Ensinando os animais da APA costa dos corais.",
-    isLiked: false,
-    isSaved: false,
-    likes: 0,
-    comments: 0,
-  });
+interface Props {
+  model: PostModel;
+  onModelChange: (model: PostModel) => void;
+}
+
+function Post({ model, onModelChange }: Props) {
+  const [localModel, setLocalModel] = useState(model);
 
   function handleLikeClick() {
-    if (model.isLiked) {
-      setModel({ ...model, isLiked: false, likes: model.likes - 1 });
+    let updatedModel;
+    if (localModel.isLiked) {
+      updatedModel = {
+        ...localModel,
+        isLiked: false,
+        likes: localModel.likes - 1,
+      };
     } else {
-      setModel({ ...model, isLiked: true, likes: model.likes + 1 });
+      updatedModel = {
+        ...localModel,
+        isLiked: true,
+        likes: localModel.likes + 1,
+      };
     }
+
+    setLocalModel(updatedModel);
+    onModelChange(updatedModel);
   }
 
   function handleCommentClick() {}
@@ -26,11 +36,15 @@ function Post() {
   function handleDownloadClick() {}
 
   function handleSaveClick() {
-    if (model.isSaved) {
-      setModel({ ...model, isSaved: false });
+    let updatedModel;
+    if (localModel.isSaved) {
+      updatedModel = { ...model, isSaved: false };
     } else {
-      setModel({ ...model, isSaved: true });
+      updatedModel = { ...model, isSaved: true };
     }
+
+    setLocalModel(updatedModel);
+    onModelChange(updatedModel);
   }
 
   function getTagClass(type: string) {
@@ -88,10 +102,10 @@ function Post() {
       <div className="card-footer py-4 mx-2">
         <ActionButtons
           model={{
-            isLiked: model.isLiked,
-            isSaved: model.isSaved,
-            likes: model.likes,
-            comments: model.comments,
+            isLiked: localModel.isLiked,
+            isSaved: localModel.isSaved,
+            likes: localModel.likes,
+            comments: localModel.comments,
           }}
           onClickLike={handleLikeClick}
           onClickComment={handleCommentClick}

@@ -11,6 +11,11 @@
 .button.is-purple:hover {
   background-color: #6759ff;
 }
+html,
+body {
+  background-color: white !important;
+  color: black !important;
+}
 
 .card {
   background-color: white !important;

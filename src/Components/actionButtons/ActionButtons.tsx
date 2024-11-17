@@ -5,13 +5,7 @@ import IconComment from "../../assets/IconComment.svg";
 import IconDownload from "../../assets/IconDownload.svg";
 import IconSave from "../../assets/IconSave.svg";
 import IconSaved from "../../assets/IconSaved.svg";
-
-interface ButtonsModel {
-  isLiked: boolean;
-  isSaved: boolean;
-  likes: number;
-  comments: number;
-}
+import { ButtonsModel } from "../../types";
 
 interface Props {
   model: ButtonsModel;
