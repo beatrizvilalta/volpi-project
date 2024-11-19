@@ -1,7 +1,21 @@
 import "./Menu.css";
 import editIcon from "../../assets/IconEdit.svg";
+import { MenuStatus } from "../../types";
 
-function Menu() {
+interface Props {
+  selected: MenuStatus;
+  onClickMenu: (selectedOption: MenuStatus) => void;
+}
+
+function Menu({ selected, onClickMenu }: Props) {
+  function getSelectedClass(model: MenuStatus) {
+    if (selected == model) {
+      return "is-selected";
+    } else {
+      return "regular";
+    }
+  }
+
   return (
     <>
       <div className="container">
@@ -22,26 +36,38 @@ function Menu() {
         </div>
         <div className="menu-width">
           <ul>
-            <li className="is-selected mb-4 py-2">
+            <li className={`mb-4 py-2 ${getSelectedClass(MenuStatus.main)}`}>
               <a
-                href=""
-                className="is-selected pl-4 is-size-4 has-text-weight-semibold"
+                onClick={() => {
+                  onClickMenu(MenuStatus.main);
+                }}
+                className={`pl-4 is-size-4 has-text-weight-semibold ${getSelectedClass(
+                  MenuStatus.main
+                )}`}
               >
                 Início
               </a>
             </li>
-            <li className="regular mb-4 py-2">
+            <li className={`mb-4 py-2 ${getSelectedClass(MenuStatus.saved)}`}>
               <a
-                href=""
-                className="regular pl-4 is-size-4 has-text-weight-semibold"
+                onClick={() => {
+                  onClickMenu(MenuStatus.saved);
+                }}
+                className={`pl-4 is-size-4 has-text-weight-semibold ${getSelectedClass(
+                  MenuStatus.saved
+                )}`}
               >
                 Salvos
               </a>
             </li>
-            <li className="regular mb-4 py-2">
+            <li className={`mb-4 py-2 ${getSelectedClass(MenuStatus.upload)}`}>
               <a
-                href=""
-                className="regular pl-4 is-size-4 has-text-weight-semibold"
+                onClick={() => {
+                  onClickMenu(MenuStatus.upload);
+                }}
+                className={`pl-4 is-size-4 has-text-weight-semibold ${getSelectedClass(
+                  MenuStatus.upload
+                )} `}
               >
                 Meus envios
               </a>

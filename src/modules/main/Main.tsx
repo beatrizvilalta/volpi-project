@@ -6,11 +6,13 @@ import line from "../../assets/Line.svg";
 import iconMenu from "../../assets/IconMenu.svg";
 import iconClose from "../../assets/IconClose.svg";
 import Modal from "../../components/modal/Modal";
+import { MenuStatus } from "../../types";
 import { useState, useEffect } from "react";
 
 function Main() {
   const [isVisible, setIsVisible] = useState(false);
   const [shouldPresentModal, setPresentModal] = useState(false);
+  const [menuState, setMenuState] = useState<MenuStatus>(MenuStatus.main);
 
   function navigateToLogin() {
     console.log("FOI PRO LOGIN");
@@ -18,6 +20,10 @@ function Main() {
 
   function handleCloseModal() {
     setPresentModal(false);
+  }
+
+  function handleMenuChange(status: MenuStatus) {
+    setMenuState(status);
   }
 
   const toggleMenu = () => {
@@ -66,13 +72,13 @@ function Main() {
                   isVisible ? "" : "is-hidden-mobile"
                 }`}
               >
-                <Menu />
+                <Menu selected={menuState} onClickMenu={handleMenuChange} />
                 <img className="mb-6" src={line} />
                 <p className="is-size-2">FILTROS</p>
               </div>
 
               <div className="column px-0">
-                <Feed />
+                <Feed type={menuState} />
               </div>
             </div>
           </section>
