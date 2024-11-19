@@ -25,7 +25,7 @@ function Feed({ type }: Props) {
         setLoading(false);
         break;
       case MenuStatus.saved:
-        setFeedModel(uploadsFeedModel);
+        setFeedModel(savedFeedModel);
         break;
       case MenuStatus.upload:
         setFeedModel(uploadsFeedModel);
