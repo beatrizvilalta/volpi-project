@@ -1,7 +1,54 @@
 import "../Register/Register.css";
+import { useState } from "react";
 import Logo from "../../assets/IconVolpiWithName.svg";
 
 function Register() {
+  const [loading, setLoading] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [hasError, setHasError] = useState(false);
+
+  function handleClickRegister() {
+    const isFormValid = validateForm();
+
+    if (isFormValid) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }
+
+  function validateForm() {
+    if (
+      isEmpty(name) ||
+      isEmpty(email) ||
+      isEmpty(password) ||
+      isEmpty(confirmPassword)
+    ) {
+      setHasError(true);
+      setErrorMessage("Todos os campos são obritaórios");
+      return false;
+    } else if (password != confirmPassword) {
+      setHasError(true);
+      setErrorMessage("Os campos de senha devem ser iguais");
+      return false;
+    } else if (password.length < 8) {
+      setHasError(true);
+      setErrorMessage("A senha deve ter pelo menos 8 caracteres");
+      return false;
+    } else {
+      setHasError(false);
+      return true;
+    }
+  }
+
+  function isEmpty(text: string) {
+    return text.length == 0;
+  }
+
   return (
     <>
       <div className="hero is-fullheight is-fullwidth login-background">
@@ -20,7 +67,10 @@ function Register() {
                   <input
                     className="input login-input"
                     type="text"
-                    placeholder="Digite seu e-mail"
+                    placeholder="Digite seu nome"
+                    disabled={loading}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
               </div>
@@ -31,6 +81,9 @@ function Register() {
                     className="input login-input"
                     type="email"
                     placeholder="Digite seu e-mail"
+                    disabled={loading}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
@@ -41,6 +94,9 @@ function Register() {
                     className="input login-input"
                     type="password"
                     placeholder="Digite sua senha"
+                    disabled={loading}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </div>
@@ -50,18 +106,28 @@ function Register() {
                   <input
                     className="input login-input"
                     type="password"
-                    placeholder="Digite sua senha"
+                    placeholder="Repita sua senha"
+                    disabled={loading}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                   />
                 </div>
               </div>
-              <div className="message is-danger mt-4">
-                <div className="message-body has-background-light">
-                  Todos os campos são obrigatórios
+              {hasError && (
+                <div className="message is-danger mt-4">
+                  <div className="message-body has-background-light">
+                    {errorMessage}
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="field">
                 <div className="control">
-                  <button className="button is-loading login-button has-text-white">
+                  <button
+                    className={`button login-button has-text-white ${
+                      loading ? "is-loading" : ""
+                    }`}
+                    onClick={handleClickRegister}
+                  >
                     Criar conta
                   </button>
                 </div>

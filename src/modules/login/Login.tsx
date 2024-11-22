@@ -43,6 +43,7 @@ function Login() {
                     className="input login-input"
                     type="email"
                     placeholder="Digite seu e-mail"
+                    disabled={loading}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -56,6 +57,7 @@ function Login() {
                     className="input login-input"
                     type="password"
                     placeholder="Digite sua senha"
+                    disabled={loading}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
