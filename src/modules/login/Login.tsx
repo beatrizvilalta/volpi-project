@@ -90,7 +90,7 @@ function Login() {
                   {" "}
                   <a
                     className="register-text register-link has-text-weight-medium"
-                    href="#register"
+                    href="register"
                   >
                     Crie a sua
                   </a>

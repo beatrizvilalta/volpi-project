@@ -2,6 +2,7 @@ import "./Post.css";
 import ActionButtons from "../actionButtons/ActionButtons";
 import { useState } from "react";
 import { PostModel } from "../../types";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   model: PostModel;
@@ -9,7 +10,12 @@ interface Props {
 }
 
 function Post({ model, onModelChange }: Props) {
+  const navigate = useNavigate();
   const [localModel, setLocalModel] = useState(model);
+
+  function handleItemTap() {
+    navigate(`/postDetail/${model.id}`);
+  }
 
   function handleLikeClick() {
     let updatedModel;
@@ -70,7 +76,7 @@ function Post({ model, onModelChange }: Props) {
 
   return (
     <div className="card custom-card">
-      <div className="card-image">
+      <div className="card-image" onClick={handleItemTap}>
         <figure className="image">
           <img
             src="https://via.placeholder.com/426x192"
@@ -81,7 +87,7 @@ function Post({ model, onModelChange }: Props) {
         </figure>
       </div>
 
-      <div className="card-content">
+      <div className="card-content" onClick={handleItemTap}>
         <div className="content">
           <p className="is-size-4 has-text-weight-medium">{model.title}</p>
           <p className="is-black truncated-text">{model.description}</p>

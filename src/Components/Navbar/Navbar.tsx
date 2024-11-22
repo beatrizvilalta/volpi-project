@@ -1,4 +1,5 @@
 import "./Navbar.css";
+import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/Logo";
 
 interface Props {
@@ -6,6 +7,8 @@ interface Props {
 }
 
 function Navbar({ isUserLogged }: Props) {
+  const navigate = useNavigate();
+
   function navigateToFileForm() {
     console.log("FOI PRA TELA DE ADD CONTEUDO");
   }
@@ -16,13 +19,18 @@ function Navbar({ isUserLogged }: Props) {
 
   function handleLoginClick() {
     console.log("VAI PRO LOGIN");
+    navigate("/login");
+  }
+
+  function handleHomeTap() {
+    navigate("/");
   }
 
   return (
     <>
       <nav className="navbar" role="navigation" aria-label="main navigation">
-        <div className="navbar-brand">
-          <a className="navbar-item" href="https://bulma.io">
+        <div className="navbar-brand" onClick={handleHomeTap}>
+          <a className="navbar-item">
             <Logo iconColor="#FFFFFF" />
           </a>
         </div>

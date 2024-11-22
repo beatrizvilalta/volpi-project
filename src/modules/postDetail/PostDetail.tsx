@@ -1,9 +1,11 @@
 import "./PostDetail.css";
 import Navbar from "../../components/navbar/Navbar";
 import ActionButtons from "../../components/actionButtons/ActionButtons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 function PostDetail() {
+  const { id } = useParams();
   const [model, setModel] = useState({
     title: "Material de colorir peixe boi",
     createdAt: "10/11/2024",
@@ -15,6 +17,11 @@ function PostDetail() {
     likes: 0,
     comments: 0,
   });
+
+  useEffect(() => {
+    console.log(`FAZ O FETCH DO ID: ${id}`);
+    window.scrollTo(0, 0);
+  }, [id]);
 
   function getSubtitle() {
     return `publicado por ${model.author} em ${model.createdAt}`;
