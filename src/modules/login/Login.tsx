@@ -1,7 +1,28 @@
 import "./Login.css";
+import { useState } from "react";
 import Logo from "../../assets/IconVolpiWithName.svg";
 
 function Login() {
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  function handleLoginClick() {
+    // here perfom fetch and set error message if needed
+    setLoading(true);
+    if (email.length == 0 || password.length == 0) {
+      setHasError(true);
+      setLoading(false);
+      setErrorMessage("Preencha todos os campos");
+    } else {
+      console.log("Email:", email);
+      console.log("Senha:", password);
+      setHasError(false);
+    }
+  }
+
   return (
     <>
       <div className="hero is-fullheight is-fullwidth login-background">
@@ -22,6 +43,8 @@ function Login() {
                     className="input login-input"
                     type="email"
                     placeholder="Digite seu e-mail"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
@@ -33,19 +56,27 @@ function Login() {
                     className="input login-input"
                     type="password"
                     placeholder="Digite sua senha"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </div>
-
-              <div className="message is-danger mt-4">
-                <div className="message-body has-background-light">
-                  Login ou senha incorretos
+              {hasError && (
+                <div className="message is-danger mt-4">
+                  <div className="message-body has-background-light">
+                    {errorMessage}
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="field">
                 <div className="control">
-                  <button className="button is-loading login-button has-text-white">
+                  <button
+                    className={`button login-button has-text-white ${
+                      loading ? "is-loading" : ""
+                    }`}
+                    onClick={handleLoginClick}
+                  >
                     Entrar
                   </button>
                 </div>
