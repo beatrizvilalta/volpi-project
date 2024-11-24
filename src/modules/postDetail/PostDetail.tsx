@@ -1,13 +1,22 @@
 import "./PostDetail.css";
 import Navbar from "../../components/navbar/Navbar";
+import editIcon from "../../assets/IconEdit.svg";
+import deleteIcon from "../../assets/IconDelete.svg";
 import ActionButtons from "../../components/actionButtons/ActionButtons";
 import LoadingView from "../../components/loading/Loading";
+import Modal from "../../components/modal/Modal";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { ModalType } from "../../types";
 
 function PostDetail() {
   const { id } = useParams();
+  const [canEdit, setCanEdit] = useState(false);
+  const [shouldPresentModal, setShouldPresentModal] = useState(false);
+  const [modalType, setModalType] = useState(ModalType.delete);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const [model, setModel] = useState({
     title: "Material de colorir peixe boi",
     createdAt: "10/11/2024",
@@ -36,6 +45,28 @@ function PostDetail() {
     } else {
       setModel({ ...model, isLiked: true, likes: model.likes + 1 });
     }
+  }
+
+  function handleActionClick(type: ModalType) {
+    if (type == ModalType.delete) {
+      navigate("/");
+    } else if (type == ModalType.login) {
+      navigate("/login");
+    }
+  }
+
+  function handleCloseModal() {
+    setShouldPresentModal(false);
+  }
+
+  function handleEditClick() {
+    setModalType(ModalType.login);
+    setShouldPresentModal(true);
+  }
+
+  function handleDeleteClick() {
+    setModalType(ModalType.delete);
+    setShouldPresentModal(true);
   }
 
   function handleCommentClick() {}
@@ -82,13 +113,31 @@ function PostDetail() {
   return (
     <>
       <div>
+        <Modal
+          type={modalType}
+          isActive={shouldPresentModal}
+          onClickAction={handleActionClick}
+          onClickClose={handleCloseModal}
+        />
         <Navbar isUserLogged={false} />
         <div className="hero is-fullheight is-fullwidth">
           <div className="custom-card">
             <div className="m-4">
-              <p className="ml-4 is-size-2 is-black has-text-weight-medium">
-                {model.title}
-              </p>
+              <div className="is-flex is-align-items-center">
+                <p className="ml-4 is-size-2 is-black has-text-weight-medium">
+                  {model.title}
+                </p>
+                {canEdit && (
+                  <div className="is-flex ml-auto">
+                    <a className="mr-3" onClick={handleEditClick}>
+                      <img src={editIcon} />
+                    </a>
+                    <a onClick={handleDeleteClick}>
+                      <img src={deleteIcon} />
+                    </a>
+                  </div>
+                )}
+              </div>
               <p className="ml-4 is-size-7 is-black">{getSubtitle()}</p>
               <p className="ml-4 is-size-4 mt-4 is-black has-text-weight-medium">
                 Descrição:

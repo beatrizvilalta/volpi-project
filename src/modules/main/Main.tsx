@@ -7,7 +7,7 @@ import iconMenu from "../../assets/IconMenu.svg";
 import iconClose from "../../assets/IconClose.svg";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../components/modal/Modal";
-import { MenuStatus } from "../../types";
+import { MenuStatus, ModalType } from "../../types";
 import { useState, useEffect } from "react";
 
 function Main() {
@@ -51,7 +51,7 @@ function Main() {
     <>
       <div>
         <Modal
-          type="login"
+          type={ModalType.login}
           isActive={shouldPresentModal}
           onClickAction={navigateToLogin}
           onClickClose={handleCloseModal}

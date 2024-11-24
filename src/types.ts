@@ -1,3 +1,8 @@
+export enum ModalType {
+  delete = "delete",
+  login = "login",
+}
+
 export enum MenuStatus {
   main = "main",
   saved = "saved",

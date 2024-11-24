@@ -1,9 +1,10 @@
 import "./Modal.css";
+import { ModalType } from "../../types";
 
 interface Props {
   isActive: boolean;
-  type: "delete" | "login";
-  onClickAction: () => void;
+  type: ModalType;
+  onClickAction: (type: ModalType) => void;
   onClickClose: () => void;
 }
 
@@ -16,10 +17,10 @@ function Modal({ type, isActive, onClickAction, onClickClose }: Props) {
           <div className="card has-background-white login-card mx-4">
             <div className="py-4">
               <p className="is-black modal-text">
-                {type === "login" &&
+                {type === ModalType.login &&
                   "Para interagir com a nossa comunidade entre na sua conta ou crie uma nova"}
 
-                {type === "delete" &&
+                {type === ModalType.delete &&
                   "Tem certeza que deseja deletar o conteúdo"}
               </p>
               <div className="columns mt-4">
@@ -30,19 +31,23 @@ function Modal({ type, isActive, onClickAction, onClickClose }: Props) {
                   >
                     Cancelar
                   </a>
-                  {type === "login" && (
+                  {type === ModalType.login && (
                     <a
                       className="has-text-weight-bold ml-4 is-purple modal-button"
-                      onClick={onClickAction}
+                      onClick={() => {
+                        onClickAction(type);
+                      }}
                     >
                       Iniciar sessão
                     </a>
                   )}
 
-                  {type === "delete" && (
+                  {type === ModalType.delete && (
                     <a
                       className="has-text-weight-bold ml-4 is-red modal-button"
-                      onClick={onClickAction}
+                      onClick={() => {
+                        onClickAction(type);
+                      }}
                     >
                       Deletar
                     </a>
