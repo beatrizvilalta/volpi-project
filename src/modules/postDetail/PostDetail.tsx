@@ -1,11 +1,13 @@
 import "./PostDetail.css";
 import Navbar from "../../components/navbar/Navbar";
 import ActionButtons from "../../components/actionButtons/ActionButtons";
+import LoadingView from "../../components/loading/Loading";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 function PostDetail() {
   const { id } = useParams();
+  const [loading, setLoading] = useState(true);
   const [model, setModel] = useState({
     title: "Material de colorir peixe boi",
     createdAt: "10/11/2024",
@@ -20,6 +22,7 @@ function PostDetail() {
 
   useEffect(() => {
     console.log(`FAZ O FETCH DO ID: ${id}`);
+    setLoading(false);
     window.scrollTo(0, 0);
   }, [id]);
 
@@ -68,10 +71,18 @@ function PostDetail() {
     return tagClass;
   }
 
+  if (loading) {
+    return (
+      <>
+        <LoadingView />
+      </>
+    );
+  }
+
   return (
     <>
       <div>
-        <Navbar isUserLogged={true} />
+        <Navbar isUserLogged={false} />
         <div className="hero is-fullheight is-fullwidth">
           <div className="custom-card">
             <div className="m-4">

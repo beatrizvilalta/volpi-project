@@ -1,6 +1,7 @@
 import "./Menu.css";
 import editIcon from "../../assets/IconEdit.svg";
 import { MenuStatus } from "../../types";
+import { useState } from "react";
 
 interface Props {
   selected: MenuStatus;
@@ -8,6 +9,8 @@ interface Props {
 }
 
 function Menu({ selected, onClickMenu }: Props) {
+  const [canEdit] = useState(false);
+  const hasUser = true;
   function getSelectedClass(model: MenuStatus) {
     if (selected == model) {
       return "is-selected";
@@ -20,19 +23,23 @@ function Menu({ selected, onClickMenu }: Props) {
     <>
       <div className="container">
         <div className="columns mb-6 menu-width">
-          <div className="column">
-            <p className="is-black is-size-6 has-text-weight-semibold">
-              John Doe
-            </p>
-            <p className="is-gray is-size-7 has-text-weight-medium">
-              john-doe@gmail.com
-            </p>
-          </div>
-          <div className="column is-one-fifth is-flex is-align-items-center is-justify-content-flex-end p-0">
-            <a href="#editUser">
-              <img src={editIcon} />
-            </a>
-          </div>
+          {hasUser && (
+            <div className="column">
+              <p className="is-black is-size-6 has-text-weight-semibold">
+                John Doe
+              </p>
+              <p className="is-gray is-size-7 has-text-weight-medium">
+                john-doe@gmail.com
+              </p>
+            </div>
+          )}
+          {canEdit && (
+            <div className="column is-one-fifth is-flex is-align-items-center is-justify-content-flex-end p-0">
+              <a href="#editUser">
+                <img src={editIcon} />
+              </a>
+            </div>
+          )}
         </div>
         <div className="menu-width">
           <ul>

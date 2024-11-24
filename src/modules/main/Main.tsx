@@ -5,6 +5,7 @@ import Feed from "../../components/feed/Feed";
 import line from "../../assets/Line.svg";
 import iconMenu from "../../assets/IconMenu.svg";
 import iconClose from "../../assets/IconClose.svg";
+import { useNavigate } from "react-router-dom";
 import Modal from "../../components/modal/Modal";
 import { MenuStatus } from "../../types";
 import { useState, useEffect } from "react";
@@ -13,17 +14,19 @@ function Main() {
   const [isVisible, setIsVisible] = useState(false);
   const [shouldPresentModal, setPresentModal] = useState(false);
   const [menuState, setMenuState] = useState<MenuStatus>(MenuStatus.main);
+  const navigate = useNavigate();
 
   function navigateToLogin() {
-    console.log("FOI PRO LOGIN");
+    navigate("/login");
   }
 
   function handleCloseModal() {
     setPresentModal(false);
   }
 
-  function handleMenuChange(status: MenuStatus) {
+  function handleMenuClick(status: MenuStatus) {
     setMenuState(status);
+    setPresentModal(true);
   }
 
   const toggleMenu = () => {
@@ -72,9 +75,8 @@ function Main() {
                   isVisible ? "" : "is-hidden-mobile"
                 }`}
               >
-                <Menu selected={menuState} onClickMenu={handleMenuChange} />
+                <Menu selected={menuState} onClickMenu={handleMenuClick} />
                 <img className="mb-6" src={line} />
-                <p className="is-size-2">FILTROS</p>
               </div>
 
               <div className="column px-0">

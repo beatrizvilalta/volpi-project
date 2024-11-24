@@ -54,7 +54,9 @@ function Register() {
       <div className="hero is-fullheight is-fullwidth login-background">
         <div className="container is-flex is-flex-direction-column is-align-items-center is-justify-content-center is-fullheight">
           <span className="mt-4">
-            <img src={Logo} />
+            <a href="/">
+              <img src={Logo} />
+            </a>
           </span>
           <div className="card has-background-white login-card my-4 mx-2">
             <div className="card-content">
