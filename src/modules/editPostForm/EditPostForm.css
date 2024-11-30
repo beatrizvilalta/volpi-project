@@ -1,0 +1,15 @@
+.form-select {
+  background-color: white !important;
+  color: #1a1b2d !important;
+  border-radius: 16px !important;
+  border: 2px solid #bebebe !important;
+}
+
+.purple-bg {
+  background-color: #6759ff !important;
+  color: white !important;
+}
+
+.no-shadow {
+  text-shadow: none;
+}

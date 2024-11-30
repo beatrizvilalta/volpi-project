@@ -3,33 +3,79 @@ import { useState, useEffect } from "react";
 import LoadingView from "../loading/Loading";
 import EmptyContent from "../emptyContent/EmptyContent";
 import Post from "../post/Post";
-import { FeedModel, PostModel, MenuStatus } from "../../types";
+import { request } from "../../Api";
+import { PostModel, MenuStatus, RequestType } from "../../types";
+import localDataProvider from "../../localDataProvider";
 
 interface Props {
   type: MenuStatus;
+  noUserAction: () => void;
 }
 
-function Feed({ type }: Props) {
-  const [feedModel, setFeedModel] = useState<FeedModel>({
-    nextPage: "",
-    feedList: [],
-  });
+function Feed({ type, noUserAction }: Props) {
+  const user = localDataProvider.getUser();
+  const [feedModel, setFeedModel] = useState<PostModel[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const fetchMainFeed = async () => {
+    try {
+      let mainFeedUrl = "";
+      if (user) {
+        mainFeedUrl = `/post?userId=${user.userId}`;
+      } else {
+        mainFeedUrl = "/post";
+      }
+      const data = await request<PostModel[]>(mainFeedUrl, RequestType.get);
+      console.log(data);
+      setFeedModel(data);
+      setLoading(false);
+    } catch (error) {
+      console.log("Erro ao buscar main feed");
+      setLoading(false);
+    }
+  };
+
+  const fetchSavedList = async () => {
+    try {
+      const data = await request<PostModel[]>(
+        `/post/saved/${user?.userId}`,
+        RequestType.get
+      );
+      console.log(data);
+      setFeedModel(data);
+      setLoading(false);
+    } catch (error) {
+      console.log("Erro ao buscar main feed");
+      setLoading(false);
+    }
+  };
+
+  const fetchUploads = async () => {
+    try {
+      const data = await request<PostModel[]>(
+        `/post/user/${user?.userId}`,
+        RequestType.get
+      );
+      console.log(data);
+      setFeedModel(data);
+      setLoading(false);
+    } catch (error) {
+      console.log("Erro ao buscar main feed");
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
-    // TODO: Realizar o fetch em cada caso e chamar setFeedModel no final do request
     switch (type) {
       case MenuStatus.main:
-        setFeedModel(mainFeedModel);
-        setLoading(false);
+        fetchMainFeed();
         break;
       case MenuStatus.saved:
-        setFeedModel(savedFeedModel);
+        fetchSavedList();
         break;
       case MenuStatus.upload:
-        setFeedModel(uploadsFeedModel);
-        setLoading(false);
+        fetchUploads();
         break;
     }
   }, [type]);
@@ -46,7 +92,7 @@ function Feed({ type }: Props) {
     );
   }
 
-  if (feedModel.feedList.length == 0) {
+  if (feedModel.length == 0) {
     return (
       <>
         <EmptyContent type={type} />
@@ -59,9 +105,13 @@ function Feed({ type }: Props) {
       <div className="container">
         <h1 className="title">Feed de Postagens</h1>
         <ul className="">
-          {feedModel?.feedList.map((item) => (
+          {feedModel?.map((item) => (
             <li key={item.id} className="py-4">
-              <Post model={item} onModelChange={handleItemUpdated} />
+              <Post
+                model={item}
+                noUserAction={noUserAction}
+                onModelChange={handleItemUpdated}
+              />
             </li>
           ))}
         </ul>
@@ -69,74 +119,5 @@ function Feed({ type }: Props) {
     </>
   );
 }
-
-const mainList = [
-  {
-    id: 1,
-    title: "Material de colorir peixe boi",
-    author: "João Guimarões Rosa",
-    description:
-      "Ensinando os animais da APA costa dos corais. Ensinando os animais da APA costa dos corais.",
-    isLiked: false,
-    isSaved: true,
-    likes: 0,
-    comments: 0,
-    createdAt: "10/11/2024",
-  },
-  {
-    id: 2,
-    title: "Material de colorir peixe boi",
-    author: "João Guimarões Rosa",
-    description:
-      "Ensinando os animais da APA costa dos corais. Ensinando os animais da APA costa dos corais.",
-    isLiked: true,
-    isSaved: false,
-    likes: 10,
-    comments: 0,
-    createdAt: "10/11/2024",
-  },
-  {
-    id: 3,
-    title: "Material de colorir peixe boi",
-    author: "João Guimarões Rosa",
-    description:
-      "Ensinando os animais da APA costa dos corais. Ensinando os animais da APA costa dos corais.",
-    isLiked: false,
-    isSaved: true,
-    likes: 30,
-    comments: 0,
-    createdAt: "10/11/2024",
-  },
-];
-
-const mainFeedModel: FeedModel = {
-  nextPage: "",
-  feedList: mainList,
-};
-
-const savedList: PostModel[] = [
-  {
-    id: 1,
-    title: "Material de colorir peixe boi",
-    author: "João Guimarões Rosa",
-    description:
-      "Ensinando os animais da APA costa dos corais. Ensinando os animais da APA costa dos corais.",
-    isLiked: false,
-    isSaved: true,
-    likes: 0,
-    comments: 0,
-    createdAt: "10/11/2024",
-  },
-];
-
-const savedFeedModel: FeedModel = {
-  nextPage: "",
-  feedList: savedList,
-};
-
-const uploadsFeedModel: FeedModel = {
-  nextPage: "",
-  feedList: [],
-};
 
 export default Feed;

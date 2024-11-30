@@ -1,13 +1,41 @@
 import "./Login.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/IconVolpiWithName.svg";
+import localDataProvider from "../../localDataProvider";
+import { RequestType, UserModel } from "../../types";
+import { request } from "../../Api";
 
 function Login() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const requestLogin = async () => {
+    const data = {
+      email: email,
+      password: password,
+    };
+
+    try {
+      const userResponse = await request<UserModel>(
+        "/auth/login",
+        RequestType.post,
+        data
+      );
+      localDataProvider.setuser(userResponse);
+      localDataProvider.setToken(userResponse.token);
+      navigate("/");
+      setLoading(false);
+    } catch (error) {
+      setErrorMessage("falha ao efetuar login");
+      setHasError(true);
+      setLoading(false);
+    }
+  };
 
   function handleLoginClick() {
     // here perfom fetch and set error message if needed
@@ -17,10 +45,12 @@ function Login() {
       setLoading(false);
       setErrorMessage("Preencha todos os campos");
     } else {
-      console.log("Email:", email);
-      console.log("Senha:", password);
-      setHasError(false);
+      requestLogin();
     }
+  }
+
+  function handleRegisterClick() {
+    navigate("/register");
   }
 
   return (
@@ -92,7 +122,7 @@ function Login() {
                   {" "}
                   <a
                     className="register-text register-link has-text-weight-medium"
-                    href="register"
+                    onClick={handleRegisterClick}
                   >
                     Crie a sua
                   </a>

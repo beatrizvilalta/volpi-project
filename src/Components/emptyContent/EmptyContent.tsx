@@ -22,7 +22,7 @@ function EmptyContent({ type }: Props) {
         )}
         <p className="is-size-4 has-text-weight-bold">
           {type === MenuStatus.main &&
-            "Não encontramos nenhum arquivo para sua busca"}
+            "Não encontramos nenhum arquivo no feed :("}
           {type === MenuStatus.saved &&
             "Você ainda não possui nenhum arquivo salvo"}
           {type === MenuStatus.upload &&
@@ -30,7 +30,7 @@ function EmptyContent({ type }: Props) {
         </p>
         <p className="mt-4 is-size-6 has-text-weight-medium">
           {type === MenuStatus.main &&
-            "Talvez realizar uma nova busca com outras palavras possa te ajudar"}
+            "Talvez realizar atualizar a página pode te ajudar"}
           {type === MenuStatus.saved &&
             "Seus arquivos marcados como salvos serão exibidos nesta tela"}
           {type === MenuStatus.upload &&

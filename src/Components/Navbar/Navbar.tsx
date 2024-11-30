@@ -1,24 +1,32 @@
 import "./Navbar.css";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Logo from "../../assets/Logo";
+import LocalDataProvider from "../../localDataProvider";
 
-interface Props {
-  isUserLogged: boolean;
-}
-
-function Navbar({ isUserLogged }: Props) {
+function Navbar() {
+  const [isUserLogged, setIsUserLogged] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const user = LocalDataProvider.getUser();
+    if (user) {
+      setIsUserLogged(true);
+    }
+  }, [isUserLogged]);
+
   function navigateToFileForm() {
-    console.log("FOI PRA TELA DE ADD CONTEUDO");
+    navigate("/addPostForm");
   }
 
   function handleLogoutClick() {
-    console.log("FEZ LOGOUT");
+    LocalDataProvider.removeUser();
+    LocalDataProvider.removeToken();
+    setIsUserLogged(false);
+    window.location.reload();
   }
 
   function handleLoginClick() {
-    console.log("VAI PRO LOGIN");
     navigate("/login");
   }
 

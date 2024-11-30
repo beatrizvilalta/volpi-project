@@ -1,8 +1,13 @@
 import "../Register/Register.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/IconVolpiWithName.svg";
+import localDataProvider from "../../localDataProvider";
+import { RequestType, UserModel } from "../../types";
+import { request } from "../../Api";
 
 function Register() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -11,11 +16,67 @@ function Register() {
   const [errorMessage, setErrorMessage] = useState("");
   const [hasError, setHasError] = useState(false);
 
+  const requestRegister = async () => {
+    const data = {
+      name: name,
+      password: password,
+      email: email,
+    };
+
+    try {
+      const userResponse = await request<UserModel>(
+        "/auth/register",
+        RequestType.post,
+        data
+      );
+      localDataProvider.setuser(userResponse);
+      localDataProvider.setToken(userResponse.token);
+      navigate("/");
+      setLoading(false);
+    } catch (error) {
+      setErrorMessage("falha ao registrar usuário");
+      setHasError(true);
+      setLoading(false);
+    }
+  };
+
+  // const requestRegister = async () => {
+  //   console.log("start request");
+  //   const data = {
+  //     name: name,
+  //     password: password,
+  //     email: email,
+  //   };
+
+  //   try {
+  //     const response = await axios.post<UserModel>(
+  //       "https://volpi-api-ec9e2c714aa7.herokuapp.com/auth/register",
+  //       data
+  //     );
+  //     const userResponse = response.data;
+  //     if (response.status == 200) {
+  //       localDataProvider.setuser(userResponse);
+  //       localDataProvider.setToken(userResponse.token);
+  //       navigate("/");
+  //     } else {
+  //       setErrorMessage("falha ao registrar usuário");
+  //       setHasError(true);
+  //     }
+  //   } catch (error) {
+  //     console.error("Erro ao fazer o POST request:", error);
+  //     setErrorMessage("falha ao registrar usuário");
+  //     setHasError(true);
+  //     setLoading(false);
+  //   }
+  // };
+
   function handleClickRegister() {
     const isFormValid = validateForm();
 
     if (isFormValid) {
       setLoading(true);
+      console.log("start request");
+      requestRegister();
     } else {
       setLoading(false);
     }
@@ -29,7 +90,7 @@ function Register() {
       isEmpty(confirmPassword)
     ) {
       setHasError(true);
-      setErrorMessage("Todos os campos são obritaórios");
+      setErrorMessage("Todos os campos são obrigatórios");
       return false;
     } else if (password != confirmPassword) {
       setHasError(true);

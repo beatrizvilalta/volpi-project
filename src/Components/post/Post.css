@@ -5,9 +5,20 @@
   overflow: hidden;
 }
 
+.custom-card:hover {
+  cursor: pointer;
+}
+
 .card-image img {
   height: 192px;
   object-fit: cover;
+}
+
+.iconImage {
+  height: 250px !important;
+  object-fit: contain;
+  object-fit: cover;
+  background-color: #bebebe;
 }
 
 .card-content {

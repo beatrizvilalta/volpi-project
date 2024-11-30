@@ -9,10 +9,13 @@ import { useNavigate } from "react-router-dom";
 import Modal from "../../components/modal/Modal";
 import { MenuStatus, ModalType } from "../../types";
 import { useState, useEffect } from "react";
+import localDataProvider from "../../localDataProvider";
 
 function Main() {
+  const user = localDataProvider.getUser();
   const [isVisible, setIsVisible] = useState(false);
   const [shouldPresentModal, setPresentModal] = useState(false);
+  const [hasUser, setHasUser] = useState(false);
   const [menuState, setMenuState] = useState<MenuStatus>(MenuStatus.main);
   const navigate = useNavigate();
 
@@ -26,7 +29,6 @@ function Main() {
 
   function handleMenuClick(status: MenuStatus) {
     setMenuState(status);
-    setPresentModal(true);
   }
 
   const toggleMenu = () => {
@@ -38,6 +40,10 @@ function Main() {
       setIsVisible(false);
     }
   };
+
+  useEffect(() => {
+    setHasUser(user != null);
+  }, [user]);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
@@ -56,7 +62,7 @@ function Main() {
           onClickAction={navigateToLogin}
           onClickClose={handleCloseModal}
         />
-        <Navbar isUserLogged={false} />
+        <Navbar />
         <div className="container is-fluid">
           <section className="hero is-fullheight-with-navbar">
             <div className="columns my-5">
@@ -70,17 +76,24 @@ function Main() {
                 </a>
               </div>
 
-              <div
-                className={`column is-side-menu ${
-                  isVisible ? "" : "is-hidden-mobile"
-                }`}
-              >
-                <Menu selected={menuState} onClickMenu={handleMenuClick} />
-                <img className="mb-6" src={line} />
-              </div>
+              {hasUser && (
+                <div
+                  className={`column is-side-menu ${
+                    isVisible ? "" : "is-hidden-mobile"
+                  }`}
+                >
+                  <Menu selected={menuState} onClickMenu={handleMenuClick} />
+                  <img className="mb-6" src={line} />
+                </div>
+              )}
 
               <div className="column px-0">
-                <Feed type={menuState} />
+                <Feed
+                  type={menuState}
+                  noUserAction={() => {
+                    setPresentModal(true);
+                  }}
+                />
               </div>
             </div>
           </section>

@@ -1,7 +1,8 @@
 import "./Menu.css";
 import editIcon from "../../assets/IconEdit.svg";
-import { MenuStatus } from "../../types";
-import { useState } from "react";
+import { MenuStatus, UserModel } from "../../types";
+import { useState, useEffect } from "react";
+import localDataProvider from "../../localDataProvider";
 
 interface Props {
   selected: MenuStatus;
@@ -10,7 +11,13 @@ interface Props {
 
 function Menu({ selected, onClickMenu }: Props) {
   const [canEdit] = useState(false);
-  const hasUser = true;
+  const [user, setUser] = useState<UserModel>({
+    token: "",
+    userId: 0,
+    name: "",
+    email: "",
+  });
+  const [isUserLogged, setIsUserLogged] = useState(false);
   function getSelectedClass(model: MenuStatus) {
     if (selected == model) {
       return "is-selected";
@@ -19,17 +26,25 @@ function Menu({ selected, onClickMenu }: Props) {
     }
   }
 
+  useEffect(() => {
+    const user = localDataProvider.getUser();
+    if (user) {
+      setUser(user);
+      setIsUserLogged(true);
+    }
+  }, [isUserLogged]);
+
   return (
     <>
       <div className="container">
         <div className="columns mb-6 menu-width">
-          {hasUser && (
+          {isUserLogged && (
             <div className="column">
               <p className="is-black is-size-6 has-text-weight-semibold">
-                John Doe
+                {user.name}
               </p>
               <p className="is-gray is-size-7 has-text-weight-medium">
-                john-doe@gmail.com
+                {user.email}
               </p>
             </div>
           )}

@@ -6,6 +6,7 @@ import IconDownload from "../../assets/IconDownload.svg";
 import IconSave from "../../assets/IconSave.svg";
 import IconSaved from "../../assets/IconSaved.svg";
 import { ButtonsModel } from "../../types";
+import { useState } from "react";
 
 interface Props {
   model: ButtonsModel;
@@ -22,6 +23,8 @@ function ActionButtons({
   onClickDownload,
   onClickSave,
 }: Props) {
+  const [canComment] = useState(false);
+
   return (
     <>
       <button
@@ -35,15 +38,17 @@ function ActionButtons({
         </span>
         <span>{model.likes}</span>
       </button>
-      <button
-        className="button responsive-button is-default"
-        onClick={onClickComment}
-      >
-        <span className="icon">
-          <img src={IconComment} />
-        </span>
-        <span>{model.comments}</span>
-      </button>
+      {canComment && (
+        <button
+          className="button responsive-button is-default"
+          onClick={onClickComment}
+        >
+          <span className="icon">
+            <img src={IconComment} />
+          </span>
+          <span>{model.comments}</span>
+        </button>
+      )}
       <button
         className="button responsive-button is-default"
         onClick={onClickDownload}
